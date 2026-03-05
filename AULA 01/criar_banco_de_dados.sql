@@ -1,0 +1,4 @@
+/*QUERY PARA CRIAR BANCO DE DADOS*/
+CREATE DATABASE biblioteca_pessoal_1s2026;
+USE biblioteca_pessoal_1s2026;
+SHOW TABLES;
