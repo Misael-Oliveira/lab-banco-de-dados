@@ -4,5 +4,5 @@ CREATE TABLE Categoria(
     nome VARCHAR(128) UNIQUE NOT NULL ,
     descricao TEXT,
     data_cadastro TIMESTAMP,
-    data_autuaizacao TIMESTAMP
+    data_autualizacao TIMESTAMP
 ); 
