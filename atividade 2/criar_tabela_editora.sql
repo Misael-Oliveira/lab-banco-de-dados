@@ -6,5 +6,5 @@ CREATE TABLE Editora(
     estado VARCHAR(64),
     pais VARCHAR(64),
     data_cadastro TIMESTAMP,
-    data_atuaizacao TIMESTAMP
+    data_atualizacao TIMESTAMP
 ); 
