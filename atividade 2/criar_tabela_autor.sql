@@ -6,5 +6,5 @@ CREATE TABLE Autor (
     ano_morte YEAR,
     apresentacao TEXT,
     data_cadastro TIMESTAMP,
-    data_autorizacao TIMESTAMP
+    data_atualizacao TIMESTAMP
 );
