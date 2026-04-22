@@ -1,0 +1,7 @@
+SELECT t2.nome as nome_autor,
+t1.titulo
+ FROM livro t1
+ JOIN
+ autor t2 on (t1.id_autor = t2.id_autor)
+ JOIN
+ categoria t3 ON (t1.id_categoria = t3.id_categoria);
