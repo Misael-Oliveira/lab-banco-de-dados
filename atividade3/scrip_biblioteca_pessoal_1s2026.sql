@@ -1,33 +1,27 @@
-/**  */
+DROP DATABASE IF EXISTS biblioteca_1s_2026;
+CREATE DATABASE biblioteca_1s_2026;
+USE biblioteca_1s_2026;
 
-/** DELETA O SCHEMA DO BD SE EXISTIR */
-DROP DATABASE IF EXISTS  biblioteca_pessoal_1s2026;
-
-/** CRIA E SELECIONA UM SCHEMA DE BD */
-CREATE DATABASE biblioteca_pessoal_1s2026;
-USE biblioteca_pessoal_1s2026;
-
-/** CRIA TABELAS, RELAÇÕES E RESTRIÇÕES */
-CREATE TABLE usuario(
+CREATE TABLE Usuario(
 	id_usuario INT PRIMARY KEY AUTO_INCREMENT,
     nome VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL UNIQUE,
     senha VARCHAR(255) NOT NULL,
     data_cadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     data_atualizacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-);
+); 
 
-CREATE TABLE categoria(
+CREATE TABLE Categoria(
 	id_categoria INT PRIMARY KEY AUTO_INCREMENT,
-    nome VARCHAR(255) UNIQUE,
+    nome VARCHAR(255) UNIQUE NOT NULL ,
     descricao TEXT,
     data_cadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    data_atualizacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-);
+    data_autualizacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+); 
 
-CREATE TABLE autor(
+CREATE TABLE Autor (
 	id_autor INT PRIMARY KEY AUTO_INCREMENT,
-    nome VARCHAR(255) NOT NULL UNIQUE,
+    nome VARCHAR (255) UNIQUE NOT NULL,
     ano_nascimento INT,
     ano_morte INT,
     apresentacao TEXT,
@@ -35,43 +29,38 @@ CREATE TABLE autor(
     data_atualizacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
-CREATE TABLE editora(
+CREATE TABLE Editora(
 	id_editora INT PRIMARY KEY AUTO_INCREMENT,
-    nome VARCHAR(255) NOT NULL UNIQUE,
-    cidade VARCHAR(255),
-    estado VARCHAR(255),
-    pais VARCHAR(255),
+    nome VARCHAR(255) UNIQUE NOT NULL ,
+    cidade VARCHAR(64),
+    estado VARCHAR(64),
+    pais VARCHAR(64),
     data_cadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     data_atualizacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
-CREATE TABLE livro(
+CREATE TABLE Livro(
 	id_livro INT PRIMARY KEY AUTO_INCREMENT,
     id_usuario INT,
     id_autor INT,
+    id_categoria INT,
     id_editora INT,
-    id_categoria INT, 
+    sinopse text,
     titulo VARCHAR(255) NOT NULL,
-    sinopse TEXT,
     ano_publicacao INT,
-    lido BOOLEAN DEFAULT(0),
+    lido BOOLEAN DEFAULT (0),
     data_cadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     data_atualizacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     
-	CONSTRAINT fk_usuario_livro FOREIGN KEY (id_usuario) 
-    REFERENCES usuario(id_usuario)
+    CONSTRAINT fk_livro_usuario FOREIGN KEY (id_usuario) REFERENCES Usuario(id_usuario)
     ON DELETE CASCADE,
     
-    CONSTRAINT fk_autor_livro FOREIGN KEY (id_autor) 
-    REFERENCES autor(id_autor)
+    CONSTRAINT fk_livro_autor FOREIGN KEY (id_autor) REFERENCES Autor(id_autor)
     ON DELETE RESTRICT,
     
-    CONSTRAINT fk_editora_livro FOREIGN KEY (id_editora) 
-    REFERENCES editora(id_editora)
+    CONSTRAINT fk_livro_categoria FOREIGN KEY (id_categoria) REFERENCES Categoria(id_categoria)
     ON DELETE RESTRICT,
     
-    CONSTRAINT fk_categoria_livro FOREIGN KEY (id_categoria) 
-    REFERENCES categoria(id_categoria)
+    CONSTRAINT fk_livro_editora FOREIGN KEY (id_editora) REFERENCES Editora(id_editora)
     ON DELETE RESTRICT
-);
-
+); 
