@@ -1,0 +1,55 @@
+
+CREATE OR REPLACE VIEW vw_categoria_livro AS (
+SELECT 
+	t2.NOME AS CATEGORIA,
+    count(t1.id_livro) AS QTD
+FROM
+	livro t1
+JOIN categoria t2 ON(t1.id_categoria = t2.id_categoria)
+GROUP BY t2.NOME);
+
+SELECT * FROM vw_categoria_livro;
+
+CREATE OR REPLACE VIEW vw_livro_lido AS (
+SELECT TITULO, LIDO FROM Livro WHERE LIDO =1
+);
+
+
+
+CREATE OR REPLACE VIEW vw_RELATORIO AS (
+SELECT 
+	t2.NOME AS CATEGORIA,
+    count(t1.lido = 1) AS QTD,
+    SUM(t1.LIDO) AS QTD_LIDO,
+    ROUND(SUM(t1.LIDO)/COUNT(t1.id_livro)*100,2) AS PC_LIDO
+FROM
+	livro t1
+JOIN categoria t2 ON(t1.id_categoria = t2.id_categoria)
+GROUP BY t2.NOME);
+
+SELECT * FROM vw_RELATORIO;
+
+DELIMITER $$
+CREATE PROCEDURE SP_ATUALIZAR_RELATORIO()
+BEGIN
+	START TRANSACTION;
+    
+    DROP TABLE IF EXISTS RELATORIO;
+    
+    CREATE TABLE RELATORIO (
+		CATEGORIA VARCHAR (255),
+        QTD INT,
+        QTD_LIDO INT,
+        PC_LIDO DECIMAL
+    );
+    
+    INSERT INTO RELATORIO (SELECT * FROM vw_RELATORIO);
+    
+    COMMIT;
+END$$
+
+
+
+CALL SP_ATUALIZAR_RELATORIO();
+
+SELECT * FROM RELATORIO;
